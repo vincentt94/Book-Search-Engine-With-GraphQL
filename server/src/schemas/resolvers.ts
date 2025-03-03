@@ -6,7 +6,7 @@ import { signToken } from '../services-delete/auth.js';
 const resolvers = {
   Query: {
     // Fetch a single user by ID or username
-    me: async (_parent: any, args: unknown, context: any) => {
+    me: async (_parent: any, _args: unknown, context: any) => {
       console.log('Here is ID from query', context.user._id);
 
       const user = await User.findOne({_id: context.user._id});
