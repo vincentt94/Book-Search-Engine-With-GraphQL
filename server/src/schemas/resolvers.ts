@@ -6,10 +6,10 @@ import { signToken } from '../services-delete/auth.js';
 const resolvers = {
   Query: {
     // Fetch a single user by ID or username
-    getSingleUser: async (_parent: any, { id, username }: { id?: string; username?: string }) => {
-      const user = await User.findOne({
-        $or: [{ _id: id }, { username }],
-      });
+    me: async (_parent: any, args: unknown, context: any) => {
+      console.log('Here is ID from query', context.user._id);
+
+      const user = await User.findOne({_id: context.user._id});
 
       if (!user) {
         throw new AuthenticationError('Cannot find a user with this id or username!');
@@ -53,6 +53,7 @@ const resolvers = {
 
     // Save a book to a user's savedBooks field
     saveBook: async (_parent: any, { book }: { book: any }, context: any) => {
+      console.log("here is context of user:", context.user);
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in!');
       }
